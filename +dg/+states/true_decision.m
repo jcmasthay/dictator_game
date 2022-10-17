@@ -27,7 +27,7 @@ end
 function exit(state, program)
 
 state.UserData.exit_time = elapsed( program.Value.task );
-next( state, program.Value.states('iti') );
+next( state, program.Value.states('delay_to_reward') );
 record_data( state, program );
 
 end

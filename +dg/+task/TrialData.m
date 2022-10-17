@@ -6,6 +6,7 @@ classdef TrialData < handle
     DelayToDecision;
     CuedDecision;
     TrueDecision;
+    DelayToReward;
   end
   methods
     function obj = TrialData()
@@ -29,6 +30,11 @@ classdef TrialData < handle
     function set.DelayToDecision(obj, data)
       validateattributes( data, {'dg.task.FixationData'}, {}, mfilename, 'DelayToDecision' );
       obj.DelayToDecision = data;
+    end
+    
+    function set.DelayToReward(obj, data)
+      validateattributes( data, {'dg.task.FixationData'}, {}, mfilename, 'DelayToReward' );
+      obj.DelayToReward = data;
     end
     
     function set.CuedDecision(obj, data)
