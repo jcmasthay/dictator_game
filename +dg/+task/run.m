@@ -17,4 +17,6 @@ run( task, prog.Value.states('new_trial') );
 
 data = prog.Value.data;
 
+delete( prog );
+
 end

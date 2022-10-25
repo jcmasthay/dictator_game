@@ -11,6 +11,7 @@ end
 function entry(~, program)
 
 structfun( @flip, program.Value.windows );
+dg.util.deliver_reward( program, 1, 0.3 );
 
 end
 
