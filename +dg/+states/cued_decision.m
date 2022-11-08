@@ -14,6 +14,9 @@ function entry(state, program)
 state.UserData.fixation_acquired_state = dg.util.FixationStateTracker();
 state.UserData.entry_time = elapsed( program.Value.task );
 
+targ = program.Value.targets.cued_decision;
+reset( targ );
+
 end
 
 function loop(state, program)
@@ -46,6 +49,9 @@ end
 function draw_stimuli(program)
 
 stim = program.Value.stimuli;
+
+program.Value.conf.configure_stimulus( stim.cued_decision, program.Value.trial_descriptor, 1 );
+
 wins = program.Value.windows;
 win_names = fieldnames( wins );
 for i = 1:numel(win_names)

@@ -11,7 +11,9 @@ end
 function entry(~, program)
 
 structfun( @flip, program.Value.windows );
-dg.util.deliver_reward( program, 1, 0.3 );
+
+reward_info = program.Value.conf.reward;
+dg.util.deliver_reward( program, reward_info.channel, reward_info.main );
 
 end
 

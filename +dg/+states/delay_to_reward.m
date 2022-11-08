@@ -21,8 +21,8 @@ end
 
 function loop(state, program)
 
-draw_stimuli( program );
-check_target( state, program );
+% draw_stimuli( program );
+% check_target( state, program );
 
 end
 
