@@ -31,8 +31,11 @@ state.UserData.exit_time = elapsed( program.Value.task );
 fix_acq = state.UserData.fixation_acquired_state;
 
 if ( fix_acq.Acquired )
-  fprintf( '\nAcquired' );
-  next( state, program.Value.states('mag_cue') );
+  if ( program.Value.trial_descriptor.DisablePostFixationCue )
+    next( state, program.Value.states('delay_to_decision') );
+  else
+    next( state, program.Value.states('mag_cue') );
+  end
 else
   fprintf( '\nFailed to acquire' );
 end

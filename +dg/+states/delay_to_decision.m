@@ -37,6 +37,10 @@ switch ( trial_desc.TrialType )
     next( state, program.Value.states('cued_decision') );
   case 'choice'
     next( state, program.Value.states('true_decision') );
+  case 'train-cued'
+    next( state, program.Value.states('reward') );
+  case 'train-choice'
+    next( state, program.Value.states('train_decision') );
   otherwise
     error( 'Unrecognized trial type "%s".', trial_desc.TrialType );
 end

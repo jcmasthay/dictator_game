@@ -4,6 +4,8 @@ classdef TrialDescriptor
     Outcomes = { 'self', 'both' };
     DelayToDecision = 0;
     DelayToReward = 0;
+    ChoiceTargetEccentricities = { 'top-left', 'top-right' };
+    DisablePostFixationCue = false;
   end
   
   methods
@@ -21,8 +23,18 @@ classdef TrialDescriptor
     end
     
     function obj = set.TrialType(obj, value)
-      value = validatestring( value, {'cued', 'choice'}, mfilename, 'TrialType' );
+      value = validatestring( value, {'cued', 'choice', 'train-cued', 'train-choice'}, mfilename, 'TrialType' );
       obj.TrialType = value;
+    end
+    
+    function obj = set.ChoiceTargetEccentricities(obj, value)
+      value = cellstr( value );
+      for i = 1:numel(value)
+        value{i} = validatestring( ...
+          value{i}, {'top-left', 'top-right', 'bottom-left', 'bottom-right'} ...
+          , mfilename, 'ChoiceTargetEccentricities' );
+      end
+      obj.ChoiceTargetEccentricities = value;
     end
     
     function obj = set.Outcomes(obj, outs)
@@ -32,6 +44,11 @@ classdef TrialDescriptor
           outs{i}, {'self', 'both', 'other', 'bottle'}, mfilename, 'Outcomes' );
       end
       obj.Outcomes = outs;
+    end
+    
+    function obj = set.DisablePostFixationCue(obj, v)
+      validateattributes( v, {'logical'}, {'scalar'}, mfilename, 'DisablePostFixationCue' );
+      obj.DisablePostFixationCue = v;
     end
   end
 end
