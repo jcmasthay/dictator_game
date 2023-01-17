@@ -14,6 +14,10 @@ program.Value.gaze_samplers = create_gaze_samplers( ...
 program.Value.targets = create_targets(...
   conf, program.Value.stimuli, program.Value.gaze_samplers, windows, comp_updater );
 program.Value.states = create_states( program, conf );
+program.Value.arduino_reward_manager = create_reward_manager( conf );
+program.Value.conf = conf;
+
+program.Destruct = @dg.task.shutdown;
 
 end
 
@@ -142,5 +146,23 @@ for i = 1:numel(fs)
   
   stimuli.(fs{i}) = stim;
 end
+
+end
+
+function arduino_reward_manager = create_reward_manager(conf)
+
+serial = conf.serial;
+
+if ( serial.disabled )
+  arduino_reward_manager = [];
+  return
+end
+
+port = serial.port;
+messages = struct();
+channels = serial.channels;
+
+arduino_reward_manager = serial_comm.SerialManager( port, messages, channels );
+start( arduino_reward_manager );
 
 end
