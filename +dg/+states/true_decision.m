@@ -56,9 +56,6 @@ function draw_stimuli(program)
 
 stim = program.Value.stimuli;
 
-program.Value.conf.configure_stimulus( stim.choice_option0, program.Value.trial_descriptor, 1 );
-program.Value.conf.configure_stimulus( stim.choice_option1, program.Value.trial_descriptor, 2 );
-
 wins = program.Value.windows;
 win_names = fieldnames( wins );
 for i = 1:numel(win_names)

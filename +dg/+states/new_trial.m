@@ -15,6 +15,7 @@ program.Value.trial_data.TrialDescriptor = program.Value.trial_descriptor;
 program.Value.reward_channel_index = 1;
 
 set_choice_target_positions( program, program.Value.trial_descriptor );
+set_choice_target_style( program, program.Value.trial_descriptor );
 
 next( state, program.Value.states('fixation') );
 
@@ -24,6 +25,14 @@ function desc = next_trial_descriptor(program)
 
 [program.Value.trial_set, desc] = next( program.Value.trial_set );
 validate_trial_desc( program, desc );
+
+end
+
+function set_choice_target_style(program, desc)
+
+stim = program.Value.stimuli;
+program.Value.conf.configure_stimulus( stim.choice_option0, desc, 1 );
+program.Value.conf.configure_stimulus( stim.choice_option1, desc, 2 );
 
 end
 
