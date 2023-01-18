@@ -12,6 +12,7 @@ function entry(state, program)
 program.Value.trial_descriptor = next_trial_descriptor( program );
 program.Value.trial_data = dg.task.TrialData();
 program.Value.trial_data.TrialDescriptor = program.Value.trial_descriptor;
+program.Value.reward_channel_index = 1;
 
 set_choice_target_positions( program, program.Value.trial_descriptor );
 
@@ -57,5 +58,11 @@ assert( numel(desc.ChoiceTargetEccentricities) <= 2 ...
 
 assert( numel(desc.ChoiceTargetEccentricities) == numel(desc.Outcomes) ...
   , 'Expected 1 choice target eccentricity specifier for each outcome.' );
+
+assert( numel(desc.RewardChannels) <= 2 ...
+  , 'Expected at most 2 reward channels.' );
+
+assert( numel(desc.RewardChannels) == numel(desc.Outcomes) ...
+  , 'Expected 1 rewarch channel for each outcome.' );
 
 end

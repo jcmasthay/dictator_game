@@ -5,6 +5,7 @@ classdef TrialDescriptor
     DelayToDecision = 0;
     DelayToReward = 0;
     ChoiceTargetEccentricities = { 'top-left', 'top-right' };
+    RewardChannels = [1, 2];
     DisablePostFixationCue = false;
   end
   
@@ -35,6 +36,11 @@ classdef TrialDescriptor
           , mfilename, 'ChoiceTargetEccentricities' );
       end
       obj.ChoiceTargetEccentricities = value;
+    end
+    
+    function obj = set.RewardChannels(obj, v)
+      validateattributes( v, {'double'}, {'integer'}, mfilename, 'RewardChannels' );
+      obj.RewardChannels = v;
     end
     
     function obj = set.Outcomes(obj, outs)

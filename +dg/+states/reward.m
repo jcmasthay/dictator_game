@@ -12,8 +12,17 @@ function entry(~, program)
 
 structfun( @flip, program.Value.windows );
 
-reward_info = program.Value.conf.reward;
-dg.util.deliver_reward( program, reward_info.channel, reward_info.main );
+channel_index = program.Value.reward_channel_index;
+
+if ( isempty(channel_index) )
+  warning( ['Empty reward channel index implies no choice was made;' ...
+    , ' no reward will be delivered.'] );
+else
+  reward_info = program.Value.conf.reward;
+  channels = program.Value.trial_descriptor.RewardChannels;
+  assert( channel_index <= numel(channels), 'Out of bounds reward channel index.' );
+  dg.util.deliver_reward( program, channels(channel_index), reward_info.main );
+end
 
 end
 

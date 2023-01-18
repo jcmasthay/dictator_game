@@ -14,6 +14,7 @@ function entry(state, program)
 state.UserData.entry_time = elapsed( program.Value.task );
 state.UserData.fixation_acquired_state0 = dg.util.FixationStateTracker();
 state.UserData.fixation_acquired_state1 = dg.util.FixationStateTracker();
+state.UserData.choice_index = [];
 
 targ0 = program.Value.targets.choice_option0;
 targ1 = program.Value.targets.choice_option1;
@@ -46,6 +47,8 @@ choice_data.ExitTime = state.UserData.exit_time;
 choice_data.FixationState0 = state.UserData.fixation_acquired_state0;
 choice_data.FixationState1 = state.UserData.fixation_acquired_state1;
 td.TrueDecision = choice_data;
+
+program.Value.reward_channel_index = state.UserData.choice_index;
 
 end
 
@@ -81,6 +84,14 @@ fix_acq_state1 = state.UserData.fixation_acquired_state1;
 
 fix_acq_state0 = target_check( fix_acq_state0, targ0, curr_time );
 fix_acq_state1 = target_check( fix_acq_state1, targ1, curr_time );
+
+if ( isempty(state.UserData.choice_index) )
+  if ( fix_acq_state0.Acquired )
+    state.UserData.choice_index = 1;
+  elseif ( fix_acq_state1.Acquired )
+    state.UserData.choice_index = 2;
+  end
+end
 
 if ( fix_acq_state0.Acquired || fix_acq_state0.Broke || ...
      fix_acq_state1.Acquired || fix_acq_state1.Broke)
