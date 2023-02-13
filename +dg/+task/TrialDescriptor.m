@@ -5,7 +5,7 @@ classdef TrialDescriptor
     DelayToDecision = 0;
     DelayToReward = 0;
     ChoiceTargetEccentricities = { 'top-left', 'top-right' };
-    RewardChannels = [1, 2];
+    RewardChannels = {1, 1:2};
     DisablePostFixationCue = false;
   end
   
@@ -39,7 +39,10 @@ classdef TrialDescriptor
     end
     
     function obj = set.RewardChannels(obj, v)
-      validateattributes( v, {'double'}, {'integer'}, mfilename, 'RewardChannels' );
+      validateattributes( v, {'cell'}, {}, mfilename, 'RewardChannels' );
+      for i = 1:numel(v)
+        validateattributes( v{i}, {'double'}, {'integer'}, mfilename, 'RewardChannels' );  
+      end
       obj.RewardChannels = v;
     end
     

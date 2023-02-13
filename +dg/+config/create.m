@@ -67,11 +67,11 @@ switch ( trial_desc.Outcomes{outcome_index} )
   case 'self'
     stimulus.FaceColor = [255, 0, 0];
   case 'both'
-    stimulus.FaceColor = [255, 127, 127];
+    stimulus.FaceColor = [255, 255, 0];
   case 'other'
-    stimulus.FaceColor = [0, 0, 255];
+    stimulus.FaceColor = [47, 186, 47];
   case 'bottle'
-    stimulus.FaceColor = [127, 127, 127];
+    stimulus.FaceColor = [0, 0, 255];
   otherwise
     error( 'Unrecognized outcome "%s".', trial_desc.Outcomes{outcome_index} );
 end

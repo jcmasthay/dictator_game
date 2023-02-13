@@ -21,7 +21,11 @@ else
   reward_info = program.Value.conf.reward;
   channels = program.Value.trial_descriptor.RewardChannels;
   assert( channel_index <= numel(channels), 'Out of bounds reward channel index.' );
-  dg.util.deliver_reward( program, channels(channel_index), reward_info.main );
+
+  for i = 1:numel(channels{channel_index})
+    dg.util.deliver_reward( ...
+      program, channels{channel_index}(i), reward_info.main );
+  end
 end
 
 end
