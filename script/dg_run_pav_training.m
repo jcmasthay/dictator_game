@@ -4,8 +4,11 @@ trial_set.Trials = dg_gen_pav_trial_set();
 
 conf = dg.config.create;
 
+% conf.windows.main.index = 0;
+% conf.windows.main.rect = [0, 0, 800, 800];
+
 conf.windows.main.index = 0;
-conf.windows.main.rect = [0, 0, 800, 800];
+conf.windows.main.rect = [];
 
 conf.time_in.cue_on = 2;
 conf.time_in.cue_off = 2;
@@ -14,6 +17,12 @@ conf.time_in.fixation = 5;
 target_dur = 0.5;
 conf.targets.matching_stimuli{3}.duration = target_dur;
 conf.targets.matching_stimuli{4}.duration = target_dur;
+
+stim_fs = fieldnames( conf.stimuli );
+for i = 1:numel(stim_fs)
+  % Set x, y size of stimuli here (in pixels).
+  conf.stimuli.(stim_fs{i}).scale = [200, 200];
+end
 
 conf.serial.disabled = true;
 

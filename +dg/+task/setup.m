@@ -141,7 +141,7 @@ for i = 1:numel(fs)
       stim.Position = desc.position;
       stim.Position.Units = 'norm';
       stim.Scale = desc.scale;
-      stim.Scale.Units = 'norm';      
+      stim.Scale.Units = 'px';      
       stim.FaceColor = desc.color;
     otherwise
       error( 'Unrecognized stimulus type "%s".', desc.type );

@@ -58,7 +58,7 @@ if ( nargin < 2 )
   pos = [0.5, 0.5];
 end
 stim = struct( 'type', 'ptb.stimuli.Rect' ...
-  , 'position', pos, 'scale', [0.25, 0.25], 'color', color );
+  , 'position', pos, 'scale', [100, 100], 'color', color );
 end
 
 function default_configure_stimulus(stimulus, trial_desc, outcome_index)
