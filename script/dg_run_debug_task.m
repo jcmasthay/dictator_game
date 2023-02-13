@@ -15,15 +15,15 @@ trial0.DelayToReward = 2;
 trial0.RewardChannels = 2;
 trial0.ChoiceTargetEccentricities = { 'center' };
 
-% trial0 = dg.task.TrialDescriptor();
-% trial0.TrialType = 'train-choice';
-% trial0.Outcomes = { 'self' };
-% trial0.DelayToDecision = 0.0;
-% trial0.DelayToReward = 2;
-% trial0.RewardChannels = 2;
-% trial0.ChoiceTargetEccentricities = { 'top-right' };
+trial1 = dg.task.TrialDescriptor();
+trial1.TrialType = 'train-choice';
+trial1.Outcomes = { 'self' };
+trial1.DelayToDecision = 0.0;
+trial1.DelayToReward = 2;
+trial1.RewardChannels = 2;
+trial1.ChoiceTargetEccentricities = { 'top-right' };
 
-trial_set.Trials = [trial0, trial0];
+trial_set.Trials = [trial0, trial1];
 
 conf = dg.config.create;
 
