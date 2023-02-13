@@ -24,11 +24,14 @@ end
 function states = create_states(program, conf)
 
 states = containers.Map();
-state_names = { 'fixation', 'mag_cue', 'new_trial', 'end_trial' ...
+state_names = { 'fixation', 'cue_on', 'cue_off', 'mag_cue', 'new_trial', 'end_trial' ...
   , 'cued_decision', 'true_decision', 'iti', 'delay_to_decision' ...
   , 'delay_to_reward', 'reward', 'train_decision' };
+args = { {}, {}, {}, {}, {}, {}, {}, {}, {'end_trial'}, {}, {}, {}, {} };
+
 for i = 1:numel(state_names)
-  state = eval( sprintf('dg.states.%s(program, conf);', state_names{i}) );
+  arg = args{i};
+  state = eval( sprintf('dg.states.%s(program, conf, arg{:});', state_names{i}) );
   states(state_names{i}) = state;
 end
 

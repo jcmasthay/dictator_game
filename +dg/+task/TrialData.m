@@ -2,6 +2,8 @@ classdef TrialData < handle
   properties
     TrialDescriptor;
     Fixation;
+    CueOn;
+    CueOff;
     MagCue;
     DelayToDecision;
     CuedDecision;
@@ -36,6 +38,16 @@ classdef TrialData < handle
     function set.DelayToReward(obj, data)
       validateattributes( data, {'dg.task.FixationData'}, {}, mfilename, 'DelayToReward' );
       obj.DelayToReward = data;
+    end
+    
+    function set.CueOn(obj, data)
+      validateattributes( data, {'dg.task.TrainingChoiceData'}, {}, mfilename, 'CueOn' );
+      obj.CueOn = data;
+    end
+    
+    function set.CueOff(obj, data)
+      validateattributes( data, {'dg.task.FixationData'}, {}, mfilename, 'CueOff' );
+      obj.CueOff = data;
     end
     
     function set.CuedDecision(obj, data)

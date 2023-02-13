@@ -1,7 +1,7 @@
-function state = fixation(program, conf)
+function state = cue_off(program, conf)
 
 state = ptb.State();
-state.Name = 'fixation';
+state.Name = 'cue_off';
 state.Duration = conf.time_in.(state.Name);
 state.Entry = @(state) entry(state, program);
 state.Loop = @(state) loop(state, program);
@@ -31,15 +31,10 @@ state.UserData.exit_time = elapsed( program.Value.task );
 fix_acq = state.UserData.fixation_acquired_state;
 
 if ( fix_acq.Acquired )
-  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') || ...
-       strcmp(program.Value.trial_descriptor.TrialType, 'train-choice'))
-    next( state, program.Value.states('cue_on') );
-    
-  elseif ( program.Value.trial_descriptor.DisablePostFixationCue )
-    next( state, program.Value.states('delay_to_decision') );
-    
+  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
+    next( state, program.Value.states('train_decision') );
   else
-    next( state, program.Value.states('mag_cue') );
+    next( state, program.Value.states('delay_to_reward') );
   end
 else
   fprintf( '\nFailed to acquire' );
@@ -56,7 +51,7 @@ fix_data = dg.task.FixationData();
 fix_data.EntryTime = state.UserData.entry_time;
 fix_data.ExitTime = state.UserData.exit_time;
 fix_data.FixationState = state.UserData.fixation_acquired_state;
-td.Fixation = fix_data;
+td.CueOff = fix_data;
 
 end
 

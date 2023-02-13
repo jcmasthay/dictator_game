@@ -16,6 +16,14 @@ state.UserData.fixation_acquired_state0 = dg.util.FixationStateTracker();
 state.UserData.fixation_acquired_state1 = dg.util.FixationStateTracker();
 state.UserData.choice_index = [];
 
+stim = program.Value.stimuli;
+
+dg.util.set_choice_target_positions( program, program.Value.trial_descriptor );
+
+if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
+  stim.choice_option0.FaceColor = [255, 255, 255];
+end
+
 end
 
 function loop(state, program)
@@ -28,7 +36,13 @@ end
 function exit(state, program)
 
 state.UserData.exit_time = elapsed( program.Value.task );
-next( state, program.Value.states('reward') );
+
+if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') )
+  next( state, program.Value.states('cue_off') );
+else
+  next( state, program.Value.states('reward') );
+end
+  
 record_data( state, program );
 
 end

@@ -16,6 +16,7 @@ state.UserData.fixation_acquired_state = dg.util.FixationStateTracker();
 state.UserData.entry_time = elapsed( program.Value.task );
 
 reset( program.Value.targets.fix_square );
+structfun( @flip, program.Value.windows );
 
 end
 
