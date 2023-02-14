@@ -2,6 +2,24 @@ function shutdown(program)
 
 close_arduino( program );
 close_windows( program );
+stop_recording_gaze( program );
+
+end
+
+function stop_recording_gaze(program)
+
+try
+  fs = fieldnames( program.Value.gaze_sources );
+  for i = 1:numel(fs)
+    try
+      stop_recording( program.Value.gaze_sources.(fs{i}) );
+    catch
+      %
+    end
+  end
+catch err 
+  warning( err.message );
+end
 
 end
 

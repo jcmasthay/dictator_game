@@ -64,6 +64,9 @@ for i = 1:numel(source_names)
   switch ( source_desc.type )
     case 'digital_eyelink'
       source = ptb.sources.Eyelink();
+      initialize( source );
+      start_recording( source );
+      
     case 'mouse'
       source = ptb.sources.Mouse();      
     otherwise
