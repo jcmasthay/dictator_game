@@ -9,6 +9,8 @@ end
 
 function entry(state, program)
 
+structfun( @flip, program.Value.windows );
+
 if ( ~finished(program.Value.trial_set) )
   next( state, program.Value.states('new_trial') );
 end

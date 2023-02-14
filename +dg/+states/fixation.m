@@ -43,6 +43,7 @@ if ( fix_acq.Acquired )
   end
 else
   fprintf( '\nFailed to acquire' );
+  next( state, program.Value.states('end_trial') );
 end
 
 record_data( state, program );
