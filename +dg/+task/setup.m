@@ -8,6 +8,7 @@ program = ptb.Reference();
 program.Value.windows = windows;
 program.Value.component_updater = comp_updater;
 program.Value.stimuli = create_stimuli( conf );
+program.Value.images = create_images( conf, windows.main );
 program.Value.gaze_sources = create_gaze_sources( conf, comp_updater );
 program.Value.gaze_samplers = create_gaze_samplers( ...
   program.Value.gaze_sources, comp_updater );
@@ -126,6 +127,26 @@ for i = 1:numel(match_stim)
   targets.(stim_name) = targ;
   
   add_component( comp_updater, targ );
+end
+
+end
+
+function ims = create_images(conf, window)
+
+im_names = fieldnames( conf.images );
+ims = struct();
+for i = 1:numel(im_names)
+  im_name = im_names{i};  
+  im_p = fullfile( dg.util.project_root, 'stimuli/images', conf.images.(im_name) );
+  
+  im = [];
+  if ( ~exist(im_p, 'file') )
+    warning( 'Non-existing image: "%s".', im_p );
+  else
+    im = imread( im_p );
+  end
+  
+  ims.(im_name) = im;
 end
 
 end

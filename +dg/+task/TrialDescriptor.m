@@ -7,6 +7,7 @@ classdef TrialDescriptor
     ChoiceTargetEccentricities = { 'top-left', 'top-right' };
     RewardChannels = {1, 1:2};
     DisablePostFixationCue = false;
+    FixationStimulusColor = ptb.Color.White();
   end
   
   methods
@@ -58,6 +59,11 @@ classdef TrialDescriptor
     function obj = set.DisablePostFixationCue(obj, v)
       validateattributes( v, {'logical'}, {'scalar'}, mfilename, 'DisablePostFixationCue' );
       obj.DisablePostFixationCue = v;
+    end
+    
+    function obj = set.FixationStimulusColor(obj, color)
+      validateattributes( color, {'ptb.Color', 'char'}, {}, mfilename, 'FixationStimulusColor' );
+      obj.FixationStimulusColor = color;
     end
   end
 end
