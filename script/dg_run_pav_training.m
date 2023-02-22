@@ -35,7 +35,6 @@ conf.serial.disabled = false;
 conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
-conf.serial.disabled = true;
 conf.images.fixation = imread( fullfile(image_p, 'flamingos.jpg') );
 
 data = dg.task.run( conf, trial_set );
