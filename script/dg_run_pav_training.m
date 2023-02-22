@@ -7,14 +7,14 @@ conf = dg.config.create;
 % conf.windows.main.index = 0;
 % conf.windows.main.rect = [0, 0, 800, 800];
 
-conf.windows.main.index = 0;
+conf.windows.main.index = 2;
 conf.windows.main.rect = [];
 
 conf.time_in.cue_on = 2;
 conf.time_in.cue_off = 2;
 conf.time_in.fixation = 5;
 
-target_dur = 0.5;
+target_dur = 0.1;
 conf.targets.matching_stimuli{3}.duration = target_dur;
 conf.targets.matching_stimuli{4}.duration = target_dur;
 
@@ -24,7 +24,10 @@ for i = 1:numel(stim_fs)
   conf.stimuli.(stim_fs{i}).scale = [200, 200];
 end
 
-conf.serial.disabled = true;
+conf.serial.disabled = false;
+
+%conf.sources.m1_gaze.type = 'mouse';
+conf.sources.m1_gaze.type = 'digital_eyelink';
 
 data = dg.task.run( conf, trial_set );
 
