@@ -1,4 +1,4 @@
-function trials = dg_gen_pav_trial_set()
+function trials = dg_gen_pav_trial_set(n)
 
 trials = dg.task.TrialDescriptor();
 trials.TrialType = 'train-cued';
@@ -18,7 +18,7 @@ for i = 1:numel(rem_outcomes)
   trials(end+1) = first_trial;
 end
 
-v = shared_utils.general.get_blocked_condition_indices( 64, 4, 4 );
+v = shared_utils.general.get_blocked_condition_indices( n, 4, 4 );
 trials = trials(v);
 
 end

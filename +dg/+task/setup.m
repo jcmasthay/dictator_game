@@ -27,8 +27,8 @@ function states = create_states(program, conf)
 states = containers.Map();
 state_names = { 'fixation', 'cue_on', 'cue_off', 'mag_cue', 'new_trial', 'end_trial' ...
   , 'cued_decision', 'true_decision', 'iti', 'delay_to_decision' ...
-  , 'delay_to_reward', 'reward', 'train_decision' };
-args = { {}, {}, {}, {}, {}, {}, {}, {}, {'end_trial'}, {}, {}, {}, {} };
+  , 'delay_to_reward', 'reward', 'train_decision', 'target_error' };
+args = { {}, {}, {}, {}, {}, {}, {}, {}, {'end_trial'}, {}, {}, {}, {}, {} };
 
 for i = 1:numel(state_names)
   arg = args{i};
