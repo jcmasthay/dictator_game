@@ -1,6 +1,6 @@
 conf = dg.config.create;
 
-conf.time_in.cue_on = 2;
+conf.time_in.cue_on = 1;
 conf.time_in.cue_off = 0.5;
 conf.time_in.fixation = 5;
 conf.time_in.iti = 3;
@@ -44,7 +44,11 @@ trial_set.Trials = trials;
 
 conf.windows.main.index = 2;
 conf.windows.main.rect = [];
-% conf.windows.main.rect = [0, 0, 800, 800];
+% conf.windows.main.rect = [800, 0, 1600, 800];
+
+% Can comment these two lines out to disable debug window.
+conf.windows.debug.index = 2;
+conf.windows.debug.rect = [0, 0, 800, 800];
 
 conf.targets.matching_stimuli{1}.duration = fix_square_target_dur;
 conf.targets.matching_stimuli{3}.duration = outcome_cue_target_dur;
