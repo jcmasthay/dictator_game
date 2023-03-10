@@ -1,6 +1,14 @@
 %%  load data
 
 file_paths = shared_utils.io.findmat( fullfile(dg.util.project_root, 'data') );
+
+% Select a specific day or string.
+wanted_subset = contains( file_paths, '10-Mar' );
+
+% Alternatively, use all the data
+% wanted_subset(:) = true;
+file_paths = file_paths(wanted_subset);
+
 file_names = shared_utils.io.filenames( file_paths );
 
 files = cellfun( @load, file_paths, 'un', 0 );
@@ -12,17 +20,23 @@ data_tbls = generate_cued_data_tables( datas, file_names );
 
 %%  Mean % initiated trials
 
+figure(1);
 [I, id, C] = rowsets( 3, data_tbls, {}, {}, 'trial_type' );
 did_init = double( data_tbls.acquired_initial_fixation );
-axs = plots.simplest_barsets( did_init, I, id, plots.cellstr_join(C) );
+axs = plots.simplest_barsets( did_init, I, id, plots.cellstr_join(C) ...
+  , 'error_func', @(x) nan );
 ylabel( axs(1), '% Initiated trials' );
+ylim( axs(1), [0, 1] );
 
 %%  Mean % errors on outcome cue
 
+figure(2);
 [I, id, C] = rowsets( 3, data_tbls, {}, 'outcome', 'trial_type' );
 had_error = double( ~data_tbls.acquired_outcome_cue );
-axs = plots.simplest_barsets( had_error, I, id, plots.cellstr_join(C) );
+axs = plots.simplest_barsets( had_error, I, id, plots.cellstr_join(C) ...
+  , 'error_func', @(x) nan );
 ylabel( axs(1), '% Errors by outcome' );
+ylim( axs(1), [0, 1] );
 
 %%
 
@@ -53,8 +67,9 @@ function tbl = to_train_cued_data_table(data)
 
 acquired_init_fix = data.Fixation.FixationState.Acquired & ...
   ~data.Fixation.FixationState.Broke;
-acquired_outcome_cue = data.CueOn.FixationState0.Acquired;
-acquired_cue_off_fix = data.CueOff.FixationState.Acquired;
+
+acquired_outcome_cue = ~isempty(data.CueOn) && data.CueOn.FixationState0.Acquired;
+acquired_cue_off_fix = ~isempty(data.CueOff) && data.CueOff.FixationState.Acquired;
 
 tbl = table( acquired_init_fix, acquired_outcome_cue, acquired_cue_off_fix ...
   , 'VariableNames', {'acquired_initial_fixation', 'acquired_outcome_cue', 'acquired_cue_off'} );
