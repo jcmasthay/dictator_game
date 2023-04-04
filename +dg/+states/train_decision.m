@@ -21,7 +21,7 @@ stim = program.Value.stimuli;
 dg.util.set_choice_target_positions( program, program.Value.trial_descriptor );
 
 if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
-  stim.choice_option0.FaceColor = [255, 255, 255];
+  stim.choice_option0.FaceColor = [127, 127, 127];
 end
 
 end
@@ -37,10 +37,14 @@ function exit(state, program)
 
 state.UserData.exit_time = elapsed( program.Value.task );
 
-if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') )
-  next( state, program.Value.states('cue_off') );
+if ( isempty(state.UserData.choice_index) )
+  next( state, program.Value.states('target_error'))
 else
-  next( state, program.Value.states('reward') );
+  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') )
+    next( state, program.Value.states('cue_off') );
+  else
+    next( state, program.Value.states('reward') );
+  end
 end
   
 record_data( state, program );
@@ -101,7 +105,7 @@ fix_acq_state1 = target_check( fix_acq_state1, targ1, curr_time );
 if ( isempty(state.UserData.choice_index) )
   if ( fix_acq_state0.Acquired )
     state.UserData.choice_index = 1;
-  elseif ( fix_acq_state1.Acquired )
+  elseif ( second_target_enabled(program) && fix_acq_state1.Acquired )
     state.UserData.choice_index = 2;
   end
 end
