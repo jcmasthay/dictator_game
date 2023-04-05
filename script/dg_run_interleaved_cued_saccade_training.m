@@ -20,7 +20,9 @@ instrumental_trials = dg_gen_instrumental_training_trial_set( num_blocks );
 pav_trials = dg_gen_pav_trial_set( num_blocks );
 is_bottle = strcmp( [pav_trials.Outcomes], 'bottle' );
 pav_trials = pav_trials(is_bottle);
-trials = pav_trials;
+% trials = pav_trials;
+
+trials = instrumental_trials;
 
 % trials = [ instrumental_trials(:); pav_trials(:) ];
 % trials = trials(randperm(numel(trials)));
@@ -28,6 +30,7 @@ trials = pav_trials;
 for i = 1:numel(trials)
   trials(i).FixationStimulusColor = 'fixation';
   trials(i).DelayToReward = delay_to_reward;
+  trials(i).PreferOutcomeStimulusImages = false;
 end
 
 %use_blocked_order = true;
@@ -64,6 +67,8 @@ conf.targets.matching_stimuli{1}.duration = fix_square_target_dur;
 conf.targets.matching_stimuli{3}.duration = outcome_cue_target_dur;
 conf.targets.matching_stimuli{4}.duration = outcome_cue_target_dur;
 
+%  stimuli
+
 stim_fs = fieldnames( conf.stimuli );
 for i = 1:numel(stim_fs)
   % Set x, y size of stimuli here (in pixels).
@@ -78,7 +83,12 @@ conf.sources.m1_gaze.type = 'mouse';
 % conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
+% images
 conf.images.fixation = imread( fullfile(image_p, 'F43.jpg') );
+conf.images.outcome_self = imread( fullfile(image_p, 'self.png') );
+conf.images.outcome_both = imread( fullfile(image_p, 'both.png') );
+conf.images.outcome_other = imread( fullfile(image_p, 'other.png') );
+conf.images.outcome_none = imread( fullfile(image_p, 'none.png') );
 
 data = dg.task.run( conf, trial_set );
 

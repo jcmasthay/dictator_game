@@ -25,9 +25,13 @@ conf.stimuli = struct(...
 );
 conf.images = struct(...
   'fixation', '' ...
+  , 'outcome_self', '' ...
+  , 'outcome_both', '' ...
+  , 'outcome_other', '' ...
+  , 'outcome_none', '' ...
 );
-conf.configure_stimulus = @(stimulus, trial_desc, outcome_index) ...
-  default_configure_stimulus(stimulus, trial_desc, outcome_index);
+conf.configure_stimulus = @(program, stimulus, trial_desc, outcome_index) ...
+  default_configure_stimulus(program, stimulus, trial_desc, outcome_index);
 conf.targets = struct(...
   'matching_stimuli', {{...
       struct('name', 'fix_square', 'source', 'm1_gaze', 'duration', 0.5, 'window', 'main') ...
@@ -69,19 +73,34 @@ stim = struct( 'type', 'ptb.stimuli.Rect' ...
   , 'position', pos, 'scale', scl, 'color', color );
 end
 
-function default_configure_stimulus(stimulus, trial_desc, outcome_index)
+function default_configure_stimulus(program, stimulus, trial_desc, outcome_index)
 
-switch ( trial_desc.Outcomes{outcome_index} )
-  case 'self'
-    stimulus.FaceColor = [214, 15, 15];
-  case 'both'
-    stimulus.FaceColor = [237, 211, 14];
-  case 'other'
-    stimulus.FaceColor = [47, 186, 47];
-  case 'bottle'
-    stimulus.FaceColor = [0, 0, 255];
-  otherwise
-    error( 'Unrecognized outcome "%s".', trial_desc.Outcomes{outcome_index} );
+if ( trial_desc.PreferOutcomeStimulusImages )
+  switch ( trial_desc.Outcomes{outcome_index} )
+    case 'self'
+      stimulus.FaceColor = program.Value.images.outcome_self;
+    case 'both'
+      stimulus.FaceColor = program.Value.images.outcome_both;
+    case 'other'
+      stimulus.FaceColor = program.Value.images.outcome_other;
+    case 'bottle'
+      stimulus.FaceColor = program.Value.images.outcome_none;
+    otherwise
+      error( 'Unrecognized outcome "%s".', trial_desc.Outcomes{outcome_index} );
+  end
+else
+  switch ( trial_desc.Outcomes{outcome_index} )
+    case 'self'
+      stimulus.FaceColor = [214, 15, 15];
+    case 'both'
+      stimulus.FaceColor = [237, 211, 14];
+    case 'other'
+      stimulus.FaceColor = [47, 186, 47];
+    case 'bottle'
+      stimulus.FaceColor = [0, 0, 255];
+    otherwise
+      error( 'Unrecognized outcome "%s".', trial_desc.Outcomes{outcome_index} );
+  end
 end
 
 end

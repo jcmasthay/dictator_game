@@ -36,8 +36,13 @@ fix_acq_state0 = state.UserData.fixation_acquired_state0;
 if ( ~fix_acq_state0.Entered || (~fix_acq_state0.Acquired && fix_acq_state0.Broke) )
   next( state, program.Value.states('target_error') );
 else
+  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
+    next( state, program.Value.states('train_decision') );
+  else
+    next( state, program.Value.states('delay_to_reward') );
+  end
 %   next( state, program.Value.states('cue_off') );
-  next( state, program.Value.states('delay_to_reward') );
+%   next( state, program.Value.states('delay_to_reward') );
 end
 
 record_data( state, program );
