@@ -33,10 +33,11 @@ function exit(state, program)
 state.UserData.exit_time = elapsed( program.Value.task );
 
 fix_acq_state0 = state.UserData.fixation_acquired_state0;
-if ( ~fix_acq_state0.Acquired && fix_acq_state0.Broke )
+if ( ~fix_acq_state0.Entered || (~fix_acq_state0.Acquired && fix_acq_state0.Broke) )
   next( state, program.Value.states('target_error') );
 else
-  next( state, program.Value.states('cue_off') );
+%   next( state, program.Value.states('cue_off') );
+  next( state, program.Value.states('delay_to_reward') );
 end
 
 record_data( state, program );

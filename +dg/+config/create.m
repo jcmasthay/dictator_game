@@ -73,9 +73,9 @@ function default_configure_stimulus(stimulus, trial_desc, outcome_index)
 
 switch ( trial_desc.Outcomes{outcome_index} )
   case 'self'
-    stimulus.FaceColor = [255, 0, 0];
+    stimulus.FaceColor = [214, 15, 15];
   case 'both'
-    stimulus.FaceColor = [255, 255, 0];
+    stimulus.FaceColor = [237, 211, 14];
   case 'other'
     stimulus.FaceColor = [47, 186, 47];
   case 'bottle'

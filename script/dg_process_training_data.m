@@ -3,7 +3,7 @@
 file_paths = shared_utils.io.findmat( fullfile(dg.util.project_root, 'data') );
 
 % Select a specific day or string.
-wanted_subset = contains( file_paths, '10-Mar' );
+wanted_subset = contains( file_paths, '04-Apr' );
 
 % Alternatively, use all the data
 % wanted_subset(:) = true;

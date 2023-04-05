@@ -1,15 +1,15 @@
 conf = dg.config.create;
 
-conf.time_in.cue_on = 1;
-conf.time_in.cue_off = 0.5;
-conf.time_in.fixation = 5;
-conf.time_in.iti = 3;
-conf.time_in.target_error = 2;
+conf.time_in.cue_on = 1; % amount of time coloured square displays on screen
+conf.time_in.cue_off = 0.5; % amount of time second fixation (fractal) is on screen
+conf.time_in.fixation = 5; % amount of time initial fixation (fractal) is on screen; initiate trial
+conf.time_in.iti = 2.5; % inter-trial interval
+conf.time_in.target_error = 2; % amount of time fixation error square is displayed
 delay_to_reward = 0;
 
 % outcome_cue_target_dur = 0.1;
-outcome_cue_target_dur = 0.25;
-fix_square_target_dur = 0.2;
+outcome_cue_target_dur = 0.125; % time to fixate on coloured square
+fix_square_target_dur = 0.2; % time to fixate on fixation (fractal) cue
 
 trial_set = dg.task.TrialSet();
 
@@ -64,8 +64,8 @@ end
 
 conf.serial.disabled = false;
 
-conf.sources.m1_gaze.type = 'mouse';
-% conf.sources.m1_gaze.type = 'digital_eyelink';
+%conf.sources.m1_gaze.type = 'mouse';
+conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
 conf.images.fixation = imread( fullfile(image_p, 'F43.jpg') );
