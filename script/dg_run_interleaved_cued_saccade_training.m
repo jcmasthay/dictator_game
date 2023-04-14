@@ -1,31 +1,35 @@
 conf = dg.config.create;
 
-conf.time_in.cue_on = 1;
-conf.time_in.cue_off = 0.5;
-conf.time_in.fixation = 5;
-conf.time_in.iti = 3;
-conf.time_in.target_error = 2;
+conf.time_in.cue_on = 1; % amount of time coloured square displays on screen
+conf.time_in.cue_off = 0.5; % amount of time second fixation (fractal) is on screen
+conf.time_in.fixation = 4; % amount of time initial fixation (fractal) is on screen; initiate trial
+conf.time_in.iti = 1.5; % inter-trial interval
+conf.time_in.target_error = 2; % amount of time fixation error square is displayed
 delay_to_reward = 0;
 
 % outcome_cue_target_dur = 0.1;
-outcome_cue_target_dur = 0.25;
-fix_square_target_dur = 0.2;
+outcome_cue_target_dur = 0.1; % time to fixate on coloured square
+fix_square_target_dur = 0.2; % time to fixate on fixation (fractal) cue
 
+% define types of trials to be run
 trial_set = dg.task.TrialSet();
 
 num_blocks = 256;
-% trials = dg_gen_pav_trial_set( num_blocks );
+pav_trials = dg_gen_pav_trial_set( num_blocks );
 instrumental_trials = dg_gen_instrumental_training_trial_set( num_blocks );
 
-pav_trials = dg_gen_pav_trial_set( num_blocks );
-is_bottle = strcmp( [pav_trials.Outcomes], 'bottle' );
-pav_trials = pav_trials(is_bottle);
-% trials = pav_trials;
+include_instrumental_trials = false;
+only_instrumental_trials = false;
 
-trials = instrumental_trials;
-
-% trials = [ instrumental_trials(:); pav_trials(:) ];
-% trials = trials(randperm(numel(trials)));
+if ( include_instrumental_trials && only_instrumental_trials )
+  trials = instrumental_trials;
+  
+elseif ( include_instrumental_trials )
+  trials = [ pav_trials(:)', instrumental_trials(:)' ];
+  trials = trials(randperm(numel(trials)));
+else
+  trials = pav_trials;
+end
 
 for i = 1:numel(trials)
   trials(i).FixationStimulusColor = 'fixation';
@@ -52,22 +56,20 @@ end
 
 trial_set.Trials = trials;
 
-conf.windows.main.index = 0;
-conf.windows.main.rect = [0, 0, 800, 800];
+% conf.windows.main.index = 0;
+% conf.windows.main.rect = [0, 0, 800, 800];
 
-% conf.windows.main.index = 2;
-% conf.windows.main.rect = [];
+conf.windows.main.index = 2;
+conf.windows.main.rect = [];
 % conf.windows.main.rect = [800, 0, 1600, 800];
 
 % Can comment these two lines out to disable debug window.
-% conf.windows.debug.index = 2;
-% conf.windows.debug.rect = [0, 0, 800, 800];
+conf.windows.debug.index = 2;
+conf.windows.debug.rect = [0, 0, 800, 800];
 
 conf.targets.matching_stimuli{1}.duration = fix_square_target_dur;
 conf.targets.matching_stimuli{3}.duration = outcome_cue_target_dur;
 conf.targets.matching_stimuli{4}.duration = outcome_cue_target_dur;
-
-%  stimuli
 
 stim_fs = fieldnames( conf.stimuli );
 for i = 1:numel(stim_fs)
@@ -77,13 +79,12 @@ for i = 1:numel(stim_fs)
   end
 end
 
-conf.serial.disabled = true;
+conf.serial.disabled = false;
 
-conf.sources.m1_gaze.type = 'mouse';
-% conf.sources.m1_gaze.type = 'digital_eyelink';
+%conf.sources.m1_gaze.type = 'mouse';
+conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
-% images
 conf.images.fixation = imread( fullfile(image_p, 'F43.jpg') );
 conf.images.outcome_self = imread( fullfile(image_p, 'self.png') );
 conf.images.outcome_both = imread( fullfile(image_p, 'both.png') );

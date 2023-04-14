@@ -2,8 +2,8 @@ conf = dg.config.create;
 
 conf.time_in.cue_on = 1; % amount of time coloured square displays on screen
 conf.time_in.cue_off = 0.5; % amount of time second fixation (fractal) is on screen
-conf.time_in.fixation = 5; % amount of time initial fixation (fractal) is on screen; initiate trial
-conf.time_in.iti = 2.5; % inter-trial interval
+conf.time_in.fixation = 4; % amount of time initial fixation (fractal) is on screen; initiate trial
+conf.time_in.iti = 1.5; % inter-trial interval
 conf.time_in.target_error = 2; % amount of time fixation error square is displayed
 delay_to_reward = 0;
 
