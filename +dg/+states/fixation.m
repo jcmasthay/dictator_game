@@ -31,9 +31,14 @@ state.UserData.exit_time = elapsed( program.Value.task );
 fix_acq = state.UserData.fixation_acquired_state;
 
 if ( fix_acq.Acquired )
-  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') || ...
-       strcmp(program.Value.trial_descriptor.TrialType, 'train-choice'))
+%   if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') || ...
+%        strcmp(program.Value.trial_descriptor.TrialType, 'train-choice'))
+%     next( state, program.Value.states('cue_on') );
+  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-cued') )
     next( state, program.Value.states('cue_on') );
+    
+  elseif ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
+    next( state, program.Value.states('train_decision') );
     
   elseif ( program.Value.trial_descriptor.DisablePostFixationCue )
     next( state, program.Value.states('delay_to_decision') );

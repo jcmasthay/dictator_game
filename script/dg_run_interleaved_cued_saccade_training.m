@@ -18,8 +18,8 @@ num_blocks = 256;
 pav_trials = dg_gen_pav_trial_set( num_blocks );
 instrumental_trials = dg_gen_instrumental_training_trial_set( num_blocks );
 
-include_instrumental_trials = false;
-only_instrumental_trials = false;
+include_instrumental_trials = true;
+only_instrumental_trials = true;
 
 if ( include_instrumental_trials && only_instrumental_trials )
   trials = instrumental_trials;
@@ -60,8 +60,9 @@ trial_set.Trials = trials;
 % conf.windows.main.rect = [0, 0, 800, 800];
 
 conf.windows.main.index = 2;
+% conf.windows.main.index = 0;
 conf.windows.main.rect = [];
-% conf.windows.main.rect = [800, 0, 1600, 800];
+% conf.windows.main.rect = [0, 0, 800, 800];
 
 % Can comment these two lines out to disable debug window.
 conf.windows.debug.index = 2;
@@ -80,8 +81,9 @@ for i = 1:numel(stim_fs)
 end
 
 conf.serial.disabled = false;
+% conf.serial.disabled = true;
 
-%conf.sources.m1_gaze.type = 'mouse';
+% conf.sources.m1_gaze.type = 'mouse';
 conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 

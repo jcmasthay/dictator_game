@@ -21,7 +21,12 @@ end
 v = shared_utils.general.get_blocked_condition_indices( n, 4, 4 );
 trials = trials(v);
 
-eccen = repmat( {'top-right', 'top-left'}, 1, numel(trials) / 2 );
-[trials.ChoiceTargetEccentricities] = deal( eccen{:} );
+eccen1 = repmat( {'top-right', 'top-left'}, 1, numel(trials) / 2 );
+eccen2 = repmat( {'bottom-right', 'bottom-left'}, 1, numel(trials) / 2 );
+
+trials = [ trials, trials ];
+eccens = [ eccen1, eccen2 ];
+eccens = eccens(randperm(numel(eccens)));
+[trials.ChoiceTargetEccentricities] = deal( eccens{:} );
 
 end

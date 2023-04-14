@@ -20,9 +20,9 @@ stim = program.Value.stimuli;
 
 dg.util.set_choice_target_positions( program, program.Value.trial_descriptor );
 
-if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
-  stim.choice_option0.FaceColor = [127, 127, 127];
-end
+% if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
+%   stim.choice_option0.FaceColor = [127, 127, 127];
+% end
 
 end
 
