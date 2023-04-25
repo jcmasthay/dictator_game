@@ -78,16 +78,22 @@ function default_configure_stimulus(program, stimulus, trial_desc, outcome_index
 if ( trial_desc.PreferOutcomeStimulusImages )
   switch ( trial_desc.Outcomes{outcome_index} )
     case 'self'
-      stimulus.FaceColor = program.Value.images.outcome_self;
+      im_name = 'outcome_self';
     case 'both'
-      stimulus.FaceColor = program.Value.images.outcome_both;
+      im_name = 'outcome_both';
     case 'other'
-      stimulus.FaceColor = program.Value.images.outcome_other;
+      im_name = 'outcome_other';
     case 'bottle'
-      stimulus.FaceColor = program.Value.images.outcome_none;
+      im_name = 'outcome_none';
     otherwise
       error( 'Unrecognized outcome "%s".', trial_desc.Outcomes{outcome_index} );
   end
+  
+  src_im_size = size( program.Value.image_matrices.(im_name), [1, 2] );
+  stimulus.FaceColor = program.Value.images.(im_name);
+  stimulus.Scale = ptb.WindowDependent( ...
+    src_im_size * trial_desc.OutcomeStimulusScale, 'px' );
+  
 else
   switch ( trial_desc.Outcomes{outcome_index} )
     case 'self'

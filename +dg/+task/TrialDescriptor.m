@@ -9,6 +9,7 @@ classdef TrialDescriptor
     DisablePostFixationCue = false;
     FixationStimulusColor = ptb.Color.White();
     PreferOutcomeStimulusImages = false;
+    OutcomeStimulusScale = 1;
   end
   
   methods
@@ -71,6 +72,11 @@ classdef TrialDescriptor
     function obj = set.FixationStimulusColor(obj, color)
       validateattributes( color, {'ptb.Color', 'char'}, {}, mfilename, 'FixationStimulusColor' );
       obj.FixationStimulusColor = color;
+    end
+    
+    function obj = set.OutcomeStimulusScale(obj, scl)
+      validateattributes( scl, {'double'}, {'scalar'}, mfilename, 'OutcomeStimulusScale' );
+      obj.OutcomeStimulusScale = scl;
     end
   end
 end
