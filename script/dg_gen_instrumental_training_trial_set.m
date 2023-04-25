@@ -1,12 +1,12 @@
-function trials = dg_gen_pav_trial_set(n)
+function trials = dg_gen_instrumental_training_trial_set(n)
 
 trials = dg.task.TrialDescriptor();
-trials.TrialType = 'train-cued';
+trials.TrialType = 'train-choice';
 trials.Outcomes = { 'self' };
 trials.DelayToDecision = 0.0;
 trials.DelayToReward = 2;
 trials.RewardChannels = { 1 };
-trials.ChoiceTargetEccentricities = { 'center' };
+trials.ChoiceTargetEccentricities = { 'top-right' };
 
 rem_outcomes = { 'both', 'other', 'bottle' };
 rem_channels = {1:2, 2, 3};
@@ -20,5 +20,13 @@ end
 
 v = shared_utils.general.get_blocked_condition_indices( n, 4, 4 );
 trials = trials(v);
+
+eccen1 = repmat( {'top-right', 'top-left'}, 1, numel(trials) / 2 );
+eccen2 = repmat( {'bottom-right', 'bottom-left'}, 1, numel(trials) / 2 );
+
+trials = [ trials, trials ];
+eccens = [ eccen1, eccen2 ];
+eccens = eccens(randperm(numel(eccens)));
+[trials.ChoiceTargetEccentricities] = deal( eccens{:} );
 
 end

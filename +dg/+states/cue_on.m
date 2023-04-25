@@ -16,6 +16,9 @@ state.UserData.fixation_acquired_state0 = dg.util.FixationStateTracker();
 
 program.Value.stimuli.choice_option0.Position = [0.5, 0.5];
 
+targ0 = program.Value.targets.choice_option0;
+reset( targ0 );
+
 end
 
 function loop(state, program)
@@ -28,7 +31,20 @@ end
 function exit(state, program)
 
 state.UserData.exit_time = elapsed( program.Value.task );
-next( state, program.Value.states('cue_off') );  
+
+fix_acq_state0 = state.UserData.fixation_acquired_state0;
+if ( ~fix_acq_state0.Entered || (~fix_acq_state0.Acquired && fix_acq_state0.Broke) )
+  next( state, program.Value.states('target_error') );
+else
+  if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
+    next( state, program.Value.states('train_decision') );
+  else
+    next( state, program.Value.states('delay_to_reward') );
+  end
+%   next( state, program.Value.states('cue_off') );
+%   next( state, program.Value.states('delay_to_reward') );
+end
+
 record_data( state, program );
 
 end
@@ -66,6 +82,11 @@ curr_time = elapsed( program.Value.task );
 targ0 = program.Value.targets.choice_option0;
 fix_acq_state0 = state.UserData.fixation_acquired_state0;
 fix_acq_state0 = target_check( fix_acq_state0, targ0, curr_time );
+
+if ( ~fix_acq_state0.Acquired && fix_acq_state0.Broke )
+  escape( state );
+end
+
 state.UserData.fixation_acquired_state0 = fix_acq_state0;
 
 end

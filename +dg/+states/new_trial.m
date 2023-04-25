@@ -31,10 +31,10 @@ end
 function set_choice_target_style(program, desc)
 
 stim = program.Value.stimuli;
-program.Value.conf.configure_stimulus( stim.choice_option0, desc, 1 );
+program.Value.conf.configure_stimulus( program, stim.choice_option0, desc, 1 );
 
 if ( numel(desc.Outcomes) > 1 )
-  program.Value.conf.configure_stimulus( stim.choice_option1, desc, 2 );
+  program.Value.conf.configure_stimulus( program, stim.choice_option1, desc, 2 );
 end
 
 end

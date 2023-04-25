@@ -8,16 +8,33 @@ conf.time_in.target_error = 2; % amount of time fixation error square is display
 delay_to_reward = 0;
 
 % outcome_cue_target_dur = 0.1;
-outcome_cue_target_dur = 0.125; % time to fixate on coloured square
+outcome_cue_target_dur = 0.1; % time to fixate on coloured square
 fix_square_target_dur = 0.2; % time to fixate on fixation (fractal) cue
 
+% define types of trials to be run
 trial_set = dg.task.TrialSet();
 
 num_blocks = 256;
-trials = dg_gen_pav_trial_set( num_blocks );
+pav_trials = dg_gen_pav_trial_set( num_blocks );
+instrumental_trials = dg_gen_instrumental_training_trial_set( num_blocks );
+
+include_instrumental_trials = true;
+only_instrumental_trials = true;
+
+if ( include_instrumental_trials && only_instrumental_trials )
+  trials = instrumental_trials;
+  
+elseif ( include_instrumental_trials )
+  trials = [ pav_trials(:)', instrumental_trials(:)' ];
+  trials = trials(randperm(numel(trials)));
+else
+  trials = pav_trials;
+end
+
 for i = 1:numel(trials)
   trials(i).FixationStimulusColor = 'fixation';
   trials(i).DelayToReward = delay_to_reward;
+  trials(i).PreferOutcomeStimulusImages = false;
 end
 
 %use_blocked_order = true;
@@ -43,8 +60,9 @@ trial_set.Trials = trials;
 % conf.windows.main.rect = [0, 0, 800, 800];
 
 conf.windows.main.index = 2;
+% conf.windows.main.index = 0;
 conf.windows.main.rect = [];
-% conf.windows.main.rect = [800, 0, 1600, 800];
+% conf.windows.main.rect = [0, 0, 800, 800];
 
 % Can comment these two lines out to disable debug window.
 conf.windows.debug.index = 2;
@@ -63,12 +81,17 @@ for i = 1:numel(stim_fs)
 end
 
 conf.serial.disabled = false;
+% conf.serial.disabled = true;
 
-%conf.sources.m1_gaze.type = 'mouse';
+% conf.sources.m1_gaze.type = 'mouse';
 conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
 conf.images.fixation = imread( fullfile(image_p, 'F43.jpg') );
+conf.images.outcome_self = imread( fullfile(image_p, 'self.png') );
+conf.images.outcome_both = imread( fullfile(image_p, 'both.png') );
+conf.images.outcome_other = imread( fullfile(image_p, 'other.png') );
+conf.images.outcome_none = imread( fullfile(image_p, 'none.png') );
 
 data = dg.task.run( conf, trial_set );
 

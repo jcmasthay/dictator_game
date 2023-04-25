@@ -8,6 +8,7 @@ classdef TrialDescriptor
     RewardChannels = {1, 1:2};
     DisablePostFixationCue = false;
     FixationStimulusColor = ptb.Color.White();
+    PreferOutcomeStimulusImages = false;
   end
   
   methods
@@ -54,6 +55,12 @@ classdef TrialDescriptor
           outs{i}, {'self', 'both', 'other', 'bottle'}, mfilename, 'Outcomes' );
       end
       obj.Outcomes = outs;
+    end
+    
+    function obj = set.PreferOutcomeStimulusImages(obj, v)
+      validateattributes( v, {'logical'}, {'scalar'} ...
+        , mfilename, 'PreferOutcomeStimulusImages' );
+      obj.PreferOutcomeStimulusImages = v;
     end
     
     function obj = set.DisablePostFixationCue(obj, v)

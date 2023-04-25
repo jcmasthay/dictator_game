@@ -38,7 +38,7 @@ if ( fix_acq.Acquired )
   end
 else
   fprintf( '\nFailed to acquire' );
-  next( state, program.Value.states('end_trial') );
+  next( state, program.Value.states('target_error') );
 end
 
 record_data( state, program );

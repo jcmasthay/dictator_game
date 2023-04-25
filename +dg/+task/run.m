@@ -12,7 +12,7 @@ task.Duration = inf;
 exit_on_key_down( task, ptb.keys.esc );
 
 prog.Value.task = task;
-
+dg.util.require_images( prog );
 run( task, prog.Value.states('new_trial') );
 
 data = prog.Value.data;
