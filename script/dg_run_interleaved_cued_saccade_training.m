@@ -1,5 +1,7 @@
 conf = dg.config.create;
 
+conf.reward.key_press = 0.5;
+
 conf.time_in.cue_on = 1; % amount of time coloured square displays on screen
 conf.time_in.cue_off = 0.5; % amount of time second fixation (fractal) is on screen
 conf.time_in.fixation = 4; % amount of time initial fixation (fractal) is on screen; initiate trial
@@ -18,8 +20,8 @@ num_blocks = 256;
 pav_trials = dg_gen_pav_trial_set( num_blocks );
 instrumental_trials = dg_gen_instrumental_training_trial_set( num_blocks );
 
-include_instrumental_trials = true;
-only_instrumental_trials = true;
+include_instrumental_trials = false;
+only_instrumental_trials = false;
 
 if ( include_instrumental_trials && only_instrumental_trials )
   trials = instrumental_trials;
@@ -34,7 +36,8 @@ end
 for i = 1:numel(trials)
   trials(i).FixationStimulusColor = 'fixation';
   trials(i).DelayToReward = delay_to_reward;
-  trials(i).PreferOutcomeStimulusImages = false;
+  trials(i).PreferOutcomeStimulusImages = true;
+  trials(i).OutcomeStimulusScale = 1;
 end
 
 %use_blocked_order = true;
@@ -88,10 +91,15 @@ conf.sources.m1_gaze.type = 'digital_eyelink';
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
 conf.images.fixation = imread( fullfile(image_p, 'F43.jpg') );
-conf.images.outcome_self = imread( fullfile(image_p, 'self.png') );
-conf.images.outcome_both = imread( fullfile(image_p, 'both.png') );
-conf.images.outcome_other = imread( fullfile(image_p, 'other.png') );
-conf.images.outcome_none = imread( fullfile(image_p, 'none.png') );
+% conf.images.outcome_self = imread( fullfile(image_p, 'self.png') );
+% conf.images.outcome_both = imread( fullfile(image_p, 'both.png') );
+% conf.images.outcome_other = imread( fullfile(image_p, 'other.png') );
+% conf.images.outcome_none = imread( fullfile(image_p, 'none.png') );
+
+conf.images.outcome_self = imread( fullfile(image_p, 'matched_pixels/circle.png') );
+conf.images.outcome_both = imread( fullfile(image_p, 'matched_pixels/square.png') );
+conf.images.outcome_other = imread( fullfile(image_p, 'matched_pixels/star.png') );
+conf.images.outcome_none = imread( fullfile(image_p, 'matched_pixels/triangle.png') );
 
 data = dg.task.run( conf, trial_set );
 

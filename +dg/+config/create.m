@@ -54,6 +54,7 @@ conf.serial = struct(...
 conf.reward = struct(...
   'main', 0.5 ...
 , 'channel', 1 ...
+, 'key_press', 0.5 ...
 );
 
 end
@@ -89,10 +90,10 @@ if ( trial_desc.PreferOutcomeStimulusImages )
       error( 'Unrecognized outcome "%s".', trial_desc.Outcomes{outcome_index} );
   end
   
-  src_im_size = size( program.Value.image_matrices.(im_name), [1, 2] );
+  src_im = program.Value.image_matrices.(im_name);
   stimulus.FaceColor = program.Value.images.(im_name);
   stimulus.Scale = ptb.WindowDependent( ...
-    src_im_size * trial_desc.OutcomeStimulusScale, 'px' );
+    [size(src_im, 1), size(src_im, 2)] .* trial_desc.OutcomeStimulusScale, 'px' );
   
 else
   switch ( trial_desc.Outcomes{outcome_index} )
