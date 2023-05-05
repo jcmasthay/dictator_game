@@ -64,7 +64,14 @@ for i = 1:numel(source_names)
   
   switch ( source_desc.type )
     case 'digital_eyelink'
+      if ( isfield(source_desc, 'enable_debug_mode') )
+        is_debug = source_desc.enable_debug_mode;
+      else
+        is_debug = false;
+      end
+      
       source = ptb.sources.Eyelink();
+      source.EnableDebugMode = is_debug;
       initialize( source );
       start_recording( source );
       

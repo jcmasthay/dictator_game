@@ -1,0 +1,21 @@
+function maybe_draw_m1_el_rect(program, rect, color)
+
+if ( isa(rect, 'ptb.XYTarget') )
+  if ( isa(rect.Bounds, 'ptb.bounds.Rect') )
+    rect = get_bounding_rect( rect.Bounds );
+  else
+    return
+  end
+elseif ( ~isa(rect, 'double') )
+  return
+end
+
+if ( isfield(program.Value.gaze_sources, 'm1_gaze') )
+  Eyelink( 'Command', 'clear_screen 0' );
+  
+  if ( isa(program.Value.gaze_sources.m1_gaze, 'ptb.sources.Eyelink') )
+    dg.util.el_draw_rect( rect, color );
+  end
+end
+
+end

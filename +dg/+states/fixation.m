@@ -16,6 +16,8 @@ state.UserData.entry_time = elapsed( program.Value.task );
 
 reset( program.Value.targets.fix_square );
 
+dg.util.maybe_draw_m1_el_rect( program, program.Value.targets.fix_square, 1 );
+
 end
 
 function loop(state, program)

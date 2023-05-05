@@ -19,6 +19,8 @@ program.Value.stimuli.choice_option0.Position = [0.5, 0.5];
 targ0 = program.Value.targets.choice_option0;
 reset( targ0 );
 
+dg.util.maybe_draw_m1_el_rect( program, targ0, 2 );
+
 end
 
 function loop(state, program)
@@ -83,7 +85,7 @@ targ0 = program.Value.targets.choice_option0;
 fix_acq_state0 = state.UserData.fixation_acquired_state0;
 fix_acq_state0 = target_check( fix_acq_state0, targ0, curr_time );
 
-if ( ~fix_acq_state0.Acquired && fix_acq_state0.Broke )
+if ( fix_acq_state0.Acquired || fix_acq_state0.Broke )
   escape( state );
 end
 

@@ -1,6 +1,6 @@
 conf = dg.config.create();
 
-channels =  2;
+channels =  1;
 reward_duration_s = 0.2;
 reward_interval_s = 7;
 

@@ -1,4 +1,8 @@
-function trials = dg_gen_pav_trial_set(n)
+function trials = dg_gen_pav_trial_set(n, self_both_only)
+
+if ( nargin < 2 )
+  self_both_only = false;
+end
 
 trials = dg.task.TrialDescriptor();
 trials.TrialType = 'train-cued';
@@ -20,5 +24,10 @@ end
 
 v = shared_utils.general.get_blocked_condition_indices( n, 4, 4 );
 trials = trials(v);
+
+if ( self_both_only )
+  is_sb = arrayfun( @(x) any(ismember({'self', 'both'}, x.Outcomes)), trials );
+  trials = trials(is_sb);
+end
 
 end
