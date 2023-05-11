@@ -92,9 +92,13 @@ end
 conf.serial.disabled = false;
 % conf.serial.disabled = true;
 
+session_p = fullfile( dg.util.data_root, 'edf', datestr(now, 'mmddyyyy') );
+shared_utils.io.require_dir( session_p );
+
 % conf.sources.m1_gaze.type = 'mouse';
 conf.sources.m1_gaze.type = 'digital_eyelink';
 conf.sources.m1_gaze.enable_debug_mode = false;
+conf.sources.m1_gaze.edf_filename = dg.util.next_edf_filename( session_p );
 image_p = fullfile( dg.util.project_root, 'stimuli/images' );
 
 conf.images.fixation = imread( fullfile(image_p, 'F43.jpg') );
@@ -108,9 +112,9 @@ conf.images.outcome_both = imread( fullfile(image_p, 'matched_pixels/triangle.pn
 conf.images.outcome_other = imread( fullfile(image_p, 'matched_pixels/star.png') );
 conf.images.outcome_none = imread( fullfile(image_p, 'matched_pixels/square.png') );
 
-data = dg.task.run( conf, trial_set );
+[data, m1_el_sync_times] = dg.task.run( conf, trial_set );
 
 if ( 1 )
   save_filename = sprintf( '%s.mat', strrep(datestr(now), ':', '_') );
-  save( fullfile(dg.util.data_root, save_filename), 'data', 'trial_set', 'conf' );
+  save( fullfile(dg.util.data_root, save_filename), 'data', 'trial_set', 'conf', 'm1_el_sync_times' );
 end

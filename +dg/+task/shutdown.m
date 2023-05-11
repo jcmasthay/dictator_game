@@ -14,7 +14,9 @@ try
   fs = fieldnames( program.Value.gaze_sources );
   for i = 1:numel(fs)
     try
-      stop_recording( program.Value.gaze_sources.(fs{i}) );
+      source = program.Value.gaze_sources.(fs{i});
+      stop_recording( source );
+      receive_file( source, fullfile(dg.util.data_root, 'edf', datestr(now, 'mmddyyyy')) );
     catch
       %
     end

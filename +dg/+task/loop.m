@@ -2,6 +2,23 @@ function loop(program, task)
 
 update( program.Value.component_updater );
 update_reward_manager( program );
+update_eyelink_sync( program, task );
+
+end
+
+function update_eyelink_sync(program, task)
+
+if ( isfield(program.Value.gaze_sources, 'm1_gaze') ) 
+  if ( isnan(program.Value.m1_eyelink_sync_timer) || ...
+      toc(program.Value.m1_eyelink_sync_timer) >= 1 )
+    
+    program.Value.m1_eyelink_sync_timer = tic;
+    curr_t = elapsed( task );
+    program.Value.gaze_sources.m1_gaze.send_message( 'SYNC' );
+    
+    program.Value.m1_eyelink_sync_times(end+1, 1) = curr_t;
+  end
+end
 
 end
 

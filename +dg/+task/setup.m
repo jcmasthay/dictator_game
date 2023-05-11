@@ -20,6 +20,9 @@ program.Value.states = create_states( program, conf );
 program.Value.arduino_reward_manager = create_reward_manager( conf );
 program.Value.conf = conf;
 
+program.Value.m1_eyelink_sync_times = [];
+program.Value.m1_eyelink_sync_timer = nan;
+
 program.Destruct = @dg.task.shutdown;
 
 end
@@ -75,7 +78,12 @@ for i = 1:numel(source_names)
       source = ptb.sources.Eyelink();
       source.EnableDebugMode = is_debug;
       initialize( source );
-      start_recording( source );
+      
+      if ( isfield(source_desc, 'edf_filename') )
+        start_recording( source, source_desc.edf_filename );
+      else
+        start_recording( source );
+      end
       
     case 'mouse'
       source = ptb.sources.Mouse();      

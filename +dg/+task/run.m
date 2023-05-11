@@ -1,4 +1,4 @@
-function data = run(conf, trial_set)
+function [data, m1_el_sync_times] = run(conf, trial_set)
 
 prog = dg.task.setup( conf );
 prog.Value.trial_set = trial_set;
@@ -16,6 +16,7 @@ dg.util.require_images( prog );
 run( task, prog.Value.states('new_trial') );
 
 data = prog.Value.data;
+m1_el_sync_times = prog.Value.m1_eyelink_sync_times;
 
 delete( prog );
 
