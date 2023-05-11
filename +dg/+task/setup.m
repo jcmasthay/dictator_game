@@ -1,5 +1,7 @@
 function program = setup(conf)
 
+ListenChar( 2 );
+
 comp_updater = ptb.ComponentUpdater();
 
 windows = create_windows( conf );

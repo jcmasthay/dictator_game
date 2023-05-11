@@ -1,6 +1,7 @@
 conf = dg.config.create;
 
 conf.reward.key_press = 0.5;
+conf.reward.main = 0.7; % seconds
 
 conf.time_in.cue_on = 1; % amount of time coloured square displays on screen
 conf.time_in.cue_off = 0.5; % amount of time second fixation (fractal) is on screen
@@ -21,7 +22,7 @@ self_both_only = false;
 pav_trials = dg_gen_pav_trial_set( num_blocks, self_both_only );
 instrumental_trials = dg_gen_instrumental_training_trial_set( num_blocks );
 
-include_instrumental_trials = false;
+include_instrumental_trials = true;
 only_instrumental_trials = false;
 
 if ( include_instrumental_trials && only_instrumental_trials )

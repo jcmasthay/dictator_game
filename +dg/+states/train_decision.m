@@ -16,13 +16,18 @@ state.UserData.fixation_acquired_state0 = dg.util.FixationStateTracker();
 state.UserData.fixation_acquired_state1 = dg.util.FixationStateTracker();
 state.UserData.choice_index = [];
 
-stim = program.Value.stimuli;
-
 dg.util.set_choice_target_positions( program, program.Value.trial_descriptor );
 
-% if ( strcmp(program.Value.trial_descriptor.TrialType, 'train-choice') )
-%   stim.choice_option0.FaceColor = [127, 127, 127];
-% end
+targ0 = program.Value.targets.choice_option0;
+targ1 = program.Value.targets.choice_option1;
+
+reset( targ0 );
+reset( targ1 );
+
+dg.util.maybe_draw_m1_el_rect( program, targ0, 2 );
+if ( second_target_enabled(program) )
+  dg.util.maybe_draw_m1_el_rect( program, targ1, 3, false );
+end
 
 end
 

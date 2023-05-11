@@ -3,7 +3,8 @@
 file_paths = shared_utils.io.findmat( fullfile(dg.util.project_root, 'data') );
 
 % Select a specific day or string.
-wanted_subset = contains( file_paths, '28-Apr' );
+wanted_subset = contains( file_paths, '11-May' );
+% wanted_subset = contains( file_paths, '11-May-2023 15_16_40' );
 
 % Alternatively, use all the data
 % wanted_subset(:) = true;
@@ -16,7 +17,7 @@ datas = cellfun( @(x) x.data, files, 'un', 0 );
 
 %%  convert to table
 
-data_tbls = generate_cued_data_tables( datas, file_names );
+data_tbls = generate_data_tables( datas, file_names );
 
 %%  Mean # initiated trials
 
@@ -40,9 +41,12 @@ ylim( axs(1), [0, 1] );
 
 %%  Mean % errors on outcome cue
 
+did_init = data_tbls.acquired_initial_fixation;
+
 figure(2); clf;
-[I, id, C] = rowsets( 3, data_tbls, {}, 'outcome', 'trial_type' );
-had_error = double( ~data_tbls.acquired_outcome_cue );
+[I, id, C] = rowsets( 3, data_tbls, {}, 'outcome', 'trial_type', 'mask', did_init );
+had_error = double( ~data_tbls.succesful_trial );
+
 axs = plots.simplest_barsets( had_error, I, id, plots.cellstr_join(C) ...
   , 'error_func', @(x) nan );
 ylabel( axs(1), '% Errors by outcome' );
@@ -54,10 +58,16 @@ use_corr = true;
 use_perc = false;
 trial_bin_size = 10;
 
-[I, C] = findeach( data_tbls, 'session_file_name' );
-bi = bin_trials( I, trial_bin_size );
-was_correct = double( data_tbls.acquired_outcome_cue );
+was_correct = double( data_tbls.succesful_trial );
 did_init = double( double(data_tbls.acquired_initial_fixation) );
+
+mask = true( rows(data_tbls), 1 );
+if ( use_perc )
+  mask = did_init;
+end
+
+[I, C] = findeach( data_tbls, 'session_file_name', mask );
+bi = bin_trials( I, trial_bin_size );
 
 metric_symbol = ternary( use_perc, '%', '#' );
 if ( use_corr )

@@ -1,4 +1,8 @@
-function maybe_draw_m1_el_rect(program, rect, color)
+function maybe_draw_m1_el_rect(program, rect, color, clr_screen)
+
+if ( nargin < 4 )
+  clr_screen = true;
+end
 
 if ( isa(rect, 'ptb.XYTarget') )
   if ( isa(rect.Bounds, 'ptb.bounds.Rect') )
@@ -11,7 +15,9 @@ elseif ( ~isa(rect, 'double') )
 end
 
 if ( isfield(program.Value.gaze_sources, 'm1_gaze') )
-  Eyelink( 'Command', 'clear_screen 0' );
+  if ( clr_screen )
+    Eyelink( 'Command', 'clear_screen 0' );
+  end
   
   if ( isa(program.Value.gaze_sources.m1_gaze, 'ptb.sources.Eyelink') )
     dg.util.el_draw_rect( rect, color );

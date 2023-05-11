@@ -1,5 +1,7 @@
 function shutdown(program)
 
+ListenChar( 0 );
+
 close_arduino( program );
 close_windows( program );
 stop_recording_gaze( program );
