@@ -14,7 +14,8 @@ elseif ( ~isa(rect, 'double') )
   return
 end
 
-if ( isfield(program.Value.gaze_sources, 'm1_gaze') )
+if ( isfield(program.Value.gaze_sources, 'm1_gaze') && ...
+     isa(program.Value.gaze_sources.m1_gaze, 'ptb.sources.Eyelink') )
   if ( clr_screen )
     Eyelink( 'Command', 'clear_screen 0' );
   end

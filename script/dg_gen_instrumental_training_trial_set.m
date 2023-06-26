@@ -1,4 +1,8 @@
-function trials = dg_gen_instrumental_training_trial_set(n)
+function trials = dg_gen_instrumental_training_trial_set(n, is_choice)
+
+if ( nargin < 2 )
+  is_choice = false;
+end
 
 trials = dg.task.TrialDescriptor();
 trials.TrialType = 'train-choice';
@@ -28,5 +32,30 @@ trials = [ trials, trials ];
 eccens = [ eccen1, eccen2 ];
 eccens = eccens(randperm(numel(eccens)));
 [trials.ChoiceTargetEccentricities] = deal( eccens{:} );
+
+if ( is_choice )  
+  top_eccen = @(x) ternary(strcmp(x, 'top-left'), 'bottom-right', 'bottom-left');
+  bot_eccen = @(x) ternary(strcmp(x, 'bottom-left'), 'top-right', 'top-left');
+  other_eccen = @(x) ternary(contains(x, 'top'), top_eccen(x), bot_eccen(x));
+  
+  all_channels = [ {1}, rem_channels ];
+	all_outs = [ {'self'}, rem_outcomes ];
+  
+  for i = 1:numel(trials)
+    trial = trials(i);
+    out = trial.Outcomes;
+    
+    curr_out = ternary( ismember(out, {'self', 'both'}) ...
+      , setdiff({'self', 'both'}, out), setdiff({'other', 'bottle'}, out));
+    curr_eccen = other_eccen( trial.ChoiceTargetEccentricities );    
+    chan_ind = strcmp( all_outs, curr_out );
+    
+    trial.Outcomes = [ trial.Outcomes, curr_out ];
+    trial.ChoiceTargetEccentricities = [ ...
+      trial.ChoiceTargetEccentricities, curr_eccen ];
+    trial.RewardChannels = [ trial.RewardChannels, all_channels(chan_ind) ];
+    trials(i) = trial;
+  end
+end
 
 end
