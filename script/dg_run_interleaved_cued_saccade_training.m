@@ -1,3 +1,10 @@
+%{
+
+right click on desktop -> display settings -> check for display order: 
+[1, 3, 2]
+
+%}
+
 conf = dg.config.create;
 
 conf.reward.key_press = 0.5;
@@ -40,6 +47,7 @@ for i = 1:numel(trials)
   trials(i).DelayToReward = delay_to_reward;
   trials(i).PreferOutcomeStimulusImages = true;
   trials(i).OutcomeStimulusScale = 0.75;
+  trials(i).ChoiceTargetEccentricityOffset = 0.25; %as number gets bigger, cue gets closer to the center of the screen (0.5 = center)
 end
 %OutcomeStimulusScale controls size of stimulus images
 

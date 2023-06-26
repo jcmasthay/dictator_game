@@ -14,7 +14,10 @@ if ( isfield(program.Value.gaze_sources, 'm1_gaze') )
     
     program.Value.m1_eyelink_sync_timer = tic;
     curr_t = elapsed( task );
-    program.Value.gaze_sources.m1_gaze.send_message( 'SYNC' );
+    
+    if ( isa(program.Value.gaze_sources.m1_gaze, 'ptb.sources.Eyelink') )
+      program.Value.gaze_sources.m1_gaze.send_message( 'SYNC' );
+    end
     
     program.Value.m1_eyelink_sync_times(end+1, 1) = curr_t;
   end

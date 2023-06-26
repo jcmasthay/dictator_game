@@ -3,7 +3,7 @@
 file_paths = shared_utils.io.findmat( fullfile(dg.util.project_root, 'data') );
 
 % Select a specific day or string.
-wanted_subset = contains( file_paths, '11-May' );
+wanted_subset = contains( file_paths, '19-Jun' );
 % wanted_subset = contains( file_paths, '11-May-2023 15_16_40' );
 
 % Alternatively, use all the data
@@ -44,7 +44,7 @@ ylim( axs(1), [0, 1] );
 did_init = data_tbls.acquired_initial_fixation;
 
 figure(2); clf;
-[I, id, C] = rowsets( 3, data_tbls, {}, 'outcome', 'trial_type', 'mask', did_init );
+[I, id, C] = rowsets( 3, data_tbls, {}, 'outcome', 'trial_type', 'mask', logical(did_init) );
 had_error = double( ~data_tbls.succesful_trial );
 
 axs = plots.simplest_barsets( had_error, I, id, plots.cellstr_join(C) ...
@@ -59,7 +59,7 @@ use_perc = false;
 trial_bin_size = 10;
 
 was_correct = double( data_tbls.succesful_trial );
-did_init = double( double(data_tbls.acquired_initial_fixation) );
+did_init = double( data_tbls.acquired_initial_fixation );
 
 mask = true( rows(data_tbls), 1 );
 if ( use_perc )

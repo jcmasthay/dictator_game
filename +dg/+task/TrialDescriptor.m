@@ -5,6 +5,7 @@ classdef TrialDescriptor
     DelayToDecision = 0;
     DelayToReward = 0;
     ChoiceTargetEccentricities = { 'top-left', 'top-right' };
+    ChoiceTargetEccentricityOffset = 0.125;
     RewardChannels = {1, 1:2};
     DisablePostFixationCue = false;
     FixationStimulusColor = ptb.Color.White();

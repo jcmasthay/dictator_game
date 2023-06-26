@@ -5,7 +5,7 @@ stims = { ...
   , program.Value.stimuli.choice_option1 ...
 };
 
-offset = 0.125;
+offset = desc.ChoiceTargetEccentricityOffset;
 
 for i = 1:numel(desc.ChoiceTargetEccentricities)
   switch ( desc.ChoiceTargetEccentricities{i} )
